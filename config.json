@@ -1,0 +1,7 @@
+{
+    "secret": "tokenBasedAuthentication",
+    "refreshTokenSecret": "refreshtokenAuthentication",
+    "tokenLife": "1000ms",
+    "refreshTokenLife": "6000ms"
+
+}
