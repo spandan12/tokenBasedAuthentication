@@ -1,11 +1,11 @@
 const knex = require('../data/db');
 const bookshelf = require('bookshelf')(knex);
 
-const TABLE_NAME = 'users';
-class User extends bookshelf.Model {
+const TABLE_NAME = 'tags';
+class Tag extends bookshelf.Model {
   get tableName() {
     return TABLE_NAME;
   }
 }
 
-module.exports = User;
+module.exports = Tag;

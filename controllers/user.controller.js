@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const userService = require('../services/user.service');
 const config = require('../config.json');
-const jwtExpirySeconds = '300s';
 
 function get(req, res, next) {
   userService.findAll()
@@ -56,39 +55,38 @@ function remove(req, res, next) {
 
 
 function login(req, res, next) {
-    userService
-      .findByUserName(req.body)
-      .then( user => {res.json({
+  userService
+    .findByUserName(req.body)
+    .then(user => {
+      res.json({
         response: generatetoken(req.body.username)
       })
-     })
-      .catch(err => {
-        err.msg = 'login failed';
-        next(err)
-      })
+    })
+    .catch(err => {
+      err.msg = 'login failed';
+      next(err)
+    })
 }
 
-function generatetoken(username){
+function generatetoken(username) {
 
   let token = jwt.sign({ username }, config.secret, {
     algorithm: 'HS256',
     expiresIn: config.tokenLife
   });
 
-  let refreshToken = jwt.sign({username}, config.refreshTokenSecret,
-     { 
+  let refreshToken = jwt.sign({ username }, config.refreshTokenSecret,
+    {
       algorithm: 'HS256',
-       expiresIn: config.refreshTokenLife
-      });
+      expiresIn: config.refreshTokenLife
+    });
 
-      const response = {
-        "status": "Logged in",
-        "token": token,
-        "refreshToken": refreshToken,
-    }
-    let tokenList = {};
-    tokenList[refreshToken] = response;
-    return tokenList;
+  const response = {
+    "status": "Logged in",
+    "token": token,
+    "refreshToken": refreshToken,
+  }
+  return response;
 }
 
 module.exports = {
